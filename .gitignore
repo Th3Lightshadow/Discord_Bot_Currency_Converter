@@ -1,0 +1,4 @@
+# Default ignored files
+src/main/java/config.txt
+.gradle
+.idea
