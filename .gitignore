@@ -1,4 +1,5 @@
 # Default ignored files
-src/main/java/config.txt
 .gradle
 .idea
+/src/main/resources/
+build
