@@ -3,6 +3,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.AboutCommand;
 import commands.ConvertCommand;
 import commands.DouaneCommand;
+import commands.ShutdownCommand;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -12,17 +13,21 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException, IOException {
-        Path pathToFile = Paths.get("src/main/resources/config.txt");
-        List<String> list = Files.readAllLines(pathToFile);
+        InputStream Config = Main.class.getClassLoader().getResourceAsStream("config.txt");
+        //Path pathToFile = Paths.get("src/main/resources/config.txt");
+        //List<String> list = Files.readAllLines(pathToFile);
+        List<String> list = new BufferedReader(new InputStreamReader(Config, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
         String token = list.get(0);
         String ownerId = list.get(1);
 
@@ -42,7 +47,9 @@ public class Main extends ListenerAdapter {
 
             new ConvertCommand(),
 
-            new DouaneCommand()
+            new DouaneCommand(),
+
+            new ShutdownCommand()
          );
 
         new JDABuilder(AccountType.BOT)
@@ -51,6 +58,7 @@ public class Main extends ListenerAdapter {
                 .setActivity(Activity.playing("Loading..."))
                 .addEventListeners(waiter, client.build())
                 .build();
+        System.out.println("Bot is now Running");
     }
 
 }

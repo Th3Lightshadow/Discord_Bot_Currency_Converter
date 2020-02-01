@@ -18,10 +18,12 @@ public class ConvertCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+        System.out.println("Convert Command Called");
         String[] input = event.getArgs().split("\\s+");
         if (input.length == 1) {
             String replyString = String.format("Convert command supports two mode of operating. %n First mode convert X currency to Y currency. %n Expected input: Amount OriginCurrency WantedCurrency. %n %n Second mode convert X currency to JPY, EUR, USD, GBP, AUD, and CAD. %n Expected input: Amount OriginCurrency");
             event.reply(replyString);
+            System.out.println("Succeeded Info");
         } else {
             float inputAmount = Float.parseFloat(input[0]);
             String fromCurrency = input[1].toUpperCase();
@@ -31,6 +33,7 @@ public class ConvertCommand extends Command {
                 if (yenCon == -1) {
                     String replyString = String.format("Wrong currency code used. %n Supported currencies USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR and EUR.");
                     event.reply(replyString);
+                    System.out.println("Failed Multiple Conversion");
                 } else {
                     yenCon = round(yenCon, 2);
                     conversions[0] = decimalCorrect(yenCon);
@@ -53,6 +56,7 @@ public class ConvertCommand extends Command {
                             decimalCorrect(inputAmount), fromCurrency, "JPY", conversions[0], "EUR", conversions[1],
                             "USD", conversions[2], "GBP", conversions[3], "AUD", conversions[4], "CAD", conversions[5]);
                     event.reply(replyString);
+                    System.out.println("Succeeded Multiple Conversion");
                 }
             } else {
                 String toCurrency = input[2].toUpperCase();
@@ -60,13 +64,16 @@ public class ConvertCommand extends Command {
                 if (converted == -1) {
                     String replyString = String.format("Wrong currency code used. %n Supported currencies USD, JPY, BGN, CZK, DKK, GBP, HUF, PLN, RON, SEK, CHF, ISK, NOK, HRK, RUB, TRY, AUD, BRL, CAD, CNY, HKD, IDR, ILS, INR, KRW, MXN, MYR, NZD, PHP, SGD, THB, ZAR and EUR.");
                     event.reply(replyString);
+                    System.out.println("Failed Single Conversion");
                 } else {
                     converted = round(converted, 2);
                     String convertedString = decimalCorrect(converted);
                     String replyString = String.format("Converted %s %s to %s %n %s: %s", decimalCorrect(inputAmount), fromCurrency, toCurrency, toCurrency, convertedString);
                     event.reply(replyString);
+                    System.out.println("Succeeded Single Conversion");
                 }
             }
         }
+        System.out.println("Convert End");
     }
 }

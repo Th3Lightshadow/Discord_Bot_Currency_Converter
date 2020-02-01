@@ -17,6 +17,7 @@ public class DouaneCommand extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+        System.out.println("Douane Command Called");
         String[] input = event.getArgs().split("\\s+");
         if (input.length == 1) {
             String replyString = String.format("Douane Command roughly calculates 'inklaringskosten' and 'btw'. %n Convert X currency to EUR and calculate the 'invoerrechten' and 'btw' roughly. %n Expected input: Amount (including shipping) OriginCurrency.");
@@ -53,5 +54,6 @@ public class DouaneCommand extends Command {
                 }
             }
         }
+        System.out.println("Douane End");
     }
 }
